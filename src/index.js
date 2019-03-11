@@ -1,5 +1,6 @@
+const h = require('./lib/hangul');
+
 (function () {
-  var h = Hangul;
   var TextTypingAnimation = (function () {
     var defaultOptions = {
       delay: 100,
@@ -45,7 +46,7 @@
             that.text = element.innerHTML.replace(/(<br>)/gm, '\n');
             execute.call(that);
           }
-        }, delay)
+        }, delay);
       }
     }
 
@@ -164,7 +165,7 @@
         that.step.shift();
         that._isProceccing = false;
         execute.call(that);
-      }, delay)
+      }, delay);
     }
 
     function clear() {
@@ -180,7 +181,7 @@
       this.step = [];
       this.text = '';
       this._isProceccing = false;
-    }
+    };
 
     TextTypingAnimation.prototype._initStep = function (obj) {
       var step = {
@@ -189,23 +190,23 @@
         append: obj.append || defaultOptions.append,
         text: obj.text,
         type: obj.type
-      }
+      };
 
       this.step.push(step);
       execute.call(this);
-    }
+    };
 
     TextTypingAnimation.prototype.go = function (obj) {
       obj.type = TYPE_GO;
       this._initStep(obj);
       return this;
-    }
+    };
 
     TextTypingAnimation.prototype.back = function (obj) {
       obj.type = TYPE_BACK;
       this._initStep(obj);
       return this;
-    }
+    };
 
     TextTypingAnimation.prototype.delay = function (delay) {
       obj = { 
@@ -214,7 +215,7 @@
       };
       this._initStep(obj);
       return this;
-    }
+    };
 
     TextTypingAnimation.prototype.clear = function () {
       obj = { 
@@ -222,10 +223,19 @@
       };
       this._initStep(obj);
       return this;
-    }
+    };
 
     return TextTypingAnimation;
-  })()
+  })();
 
-  window.TextTypingAnimation = TextTypingAnimation;
+  if (typeof define == 'function' && define.amd) {
+    define(function(){
+      return TextTypingAnimation;
+    });
+  } else if (typeof module !== 'undefined') {
+    module.exports = TextTypingAnimation;
+  }
+  
+  if (window)
+    window.TextTypingAnimation = TextTypingAnimation;
 })();

@@ -1,10 +1,10 @@
 {
   "name": "text-typing-animation",
-  "version": "0.1.0",
-  "description": "",
-  "main": "lib/index.js",
+  "version": "0.1.5",
+  "description": "## Text Typing Animation",
+  "main": "dist/text-typing-animation.min.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack"
   },
   "repository": {
     "type": "git",
@@ -16,8 +16,25 @@
   "bugs": {
     "url": "https://github.com/ggons/text-typing-animation/issues"
   },
-  "keywords": ["typing", "animation"],
+  "keywords": [
+    "typing",
+    "animation",
+    "hangul",
+    "effect"
+  ],
   "author": "ggons <nyg4628@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/ggons/text-typing-animation.git"
+  "homepage": "https://github.com/ggons/text-typing-animation.git",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
 }

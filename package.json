@@ -36,5 +36,8 @@
     "presets": [
       "env"
     ]
+  },
+  "dependencies": {
+    "hangul-js": "^0.2.5"
   }
 }

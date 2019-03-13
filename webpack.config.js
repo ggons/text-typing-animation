@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -9,5 +10,14 @@ module.exports = {
     libraryTarget: 'umd',
     library: 'TextTypingAnimation',
     umdNamedDefine: true,
-  }
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'test'),
+    port: 8080
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve('test', 'index.html')
+    })
+  ]
 };

@@ -13,6 +13,11 @@ var TextTypingAnimation = (function () {
   var TYPE_CLEAR = 3;
 
   function TextTypingAnimation(element) {
+    if (!element) {
+      console.error('TypeTypingAnimation: not exist element');
+      return false;
+    }
+
     this._init(element);
   }
 
@@ -120,9 +125,10 @@ var TextTypingAnimation = (function () {
     var writeTextArr = [];
     if (typeof step === 'string')
       strs = step;
-    else {
+    else if (step.text !== undefined)
       strs = step.text;
-    }
+    else
+      strs = this.text;
     
     var strSplit = strs.split('\n');
     var newStrList = [];
@@ -183,6 +189,10 @@ var TextTypingAnimation = (function () {
   };
 
   TextTypingAnimation.prototype._initStep = function (obj) {
+    if (!this.element) {
+      return false;
+    }
+
     var step = {
       delay: obj.delay || defaultOptions.delay,
       duration: obj.duration || defaultOptions.duration,
@@ -190,6 +200,10 @@ var TextTypingAnimation = (function () {
       text: obj.text,
       type: obj.type
     };
+
+    if (obj.type === TYPE_CLEAR && obj.duration) {
+      step.type = TYPE_BACK;
+    }
 
     this.step.push(step);
     execute.call(this);
@@ -216,9 +230,10 @@ var TextTypingAnimation = (function () {
     return this;
   };
 
-  TextTypingAnimation.prototype.clear = function () {
+  TextTypingAnimation.prototype.clear = function (duration) {
     obj = { 
-      type: TYPE_CLEAR
+      type: TYPE_CLEAR,
+      duration: duration ? duration : undefined
     };
     this._initStep(obj);
     return this;

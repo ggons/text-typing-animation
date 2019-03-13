@@ -1,5 +1,17 @@
 # Introduction
 
+TextTypingAnimation is a library for typing effects.
+
+## Install
+
+### node.js
+```bash
+npm install text-typing-animation
+```
+```javascript
+var TextTypingAnimation = require('text-typing-animation');
+```
+
 ## Usage
 
 ```javascript
@@ -22,18 +34,19 @@ tta
 
 ## API
 
-### go
-* `text` - Text
-* `delay` - Time entered per text
-* `duration` - A Number determining how long the animation will run
-* `append` - Whether to append to the string entered
+### go({ text, [delay], [duration], [append] })
+* `text` - (String) Text
+* `delay` - (Number) Time entered per text (default: 100)
+* `duration` - (Number) A Number determining how long the animation will run
+* `append` - (Boolean) Whether to append to the string entered
 
-### back
-* `text` - Text to delete
-* `delay` - Time deleted per text
-* `duration` - A number determining how long the animation will run
+### back({ text, [delay], [duration] })
+* `text` - (String) Text to delete
+* `delay` - (Number) Time deleted per text (default: 100)
+* `duration` - (Number) A number determining how long the animation will run
 
-### delay
-* `delay` - Delay
+### delay(delay)
+* `delay` - (Number) Delay
 
-### clear
+### clear([duration])
+* `duration` - Duration

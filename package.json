@@ -1,6 +1,6 @@
 {
   "name": "text-typing-animation",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "## Text Typing Animation",
   "main": "dist/text-typing-animation.js",
   "scripts": {

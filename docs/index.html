@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Text Typing Animation</title>
+  <style>
+    div {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  Example
+  <br />
+  <div id="example1">
+
+  </div>
+  <script src="../dist/text-typing-animation.js"></script>
+  <script>
+    var tta = new TextTypingAnimation(document.getElementById('example1'));
+
+    tta
+    .go({
+      text: 'Our mission is to\norganize the world’s\ninformation and make it\nuniversally accessible\nand useful',
+      delay: 50
+    })
+    .back({
+      text: 'Our mission is to\norganize the world’s\ninformation and make it\nuniversally accessible\nand useful',
+      delay: 20
+    })
+    .go({
+      text: 'Google!!',
+      append: true
+    });
+  </script>
+</body>
+</html>

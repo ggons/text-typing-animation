@@ -25,15 +25,15 @@ tta
 ### go
 * `text` - Text
 * `delay` - Time entered per text
-* `duration` - number determining how long the animation will run
+* `duration` - A Number determining how long the animation will run
 * `append` - Whether to append to the string entered
 
 ### back
 * `text` - Text to delete
 * `delay` - Time deleted per text
-* `duration` - number determining how long the animation will run
+* `duration` - A number determining how long the animation will run
 
 ### delay
-* `delay` - delay
+* `delay` - Delay
 
 ### clear

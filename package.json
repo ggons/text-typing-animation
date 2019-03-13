@@ -1,8 +1,8 @@
 {
   "name": "text-typing-animation",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "## Text Typing Animation",
-  "main": "dist/text-typing-animation.min.js",
+  "main": "dist/text-typing-animation.js",
   "scripts": {
     "start": "webpack"
   },
@@ -17,6 +17,7 @@
     "url": "https://github.com/ggons/text-typing-animation/issues"
   },
   "keywords": [
+    "text",
     "typing",
     "animation",
     "hangul",

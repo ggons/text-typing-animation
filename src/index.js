@@ -1,6 +1,5 @@
 const h = require('hangul-js');
 
-
 var TextTypingAnimation = (function () {
   var defaultOptions = {
     delay: 100,

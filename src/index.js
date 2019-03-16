@@ -2,9 +2,14 @@ const h = require('hangul-js');
 
 var TextTypingAnimation = (function () {
   var defaultOptions = {
+    start: true,
+    repeat: false
+  };
+  
+  var defaultStep = {
     delay: 100,
     duration: null,
-    append: false
+    append: false,
   };
 
   var TYPE_GO = 0;
@@ -12,13 +17,17 @@ var TextTypingAnimation = (function () {
   var TYPE_DELAY = 2;
   var TYPE_CLEAR = 3;
 
-  function TextTypingAnimation(element) {
+  var STATUS_START = 'START';
+  var STATUS_PAUSE = 'PAUSE';
+  var STATUS_WAIT = 'WAIT';
+
+  function TextTypingAnimation(element, options) {
     if (!element) {
       console.error('TypeTypingAnimation: not exist element');
       return false;
     }
 
-    this._init(element);
+    this._init(element, options);
   }
 
   function calcDelayByDuration(duration, textLen) {
@@ -28,7 +37,7 @@ var TextTypingAnimation = (function () {
   function writeText(writeTextArr) {
     var that = this;
     var element = this.element;
-    var step = this.step[0];
+    var step = this.activeStep;
     var delay = step.delay;
     var duration = step.duration;
 
@@ -39,14 +48,19 @@ var TextTypingAnimation = (function () {
       }
 
       var count = 0;
-      var interval = setInterval(function () {
+      this.interval = setInterval(function () {
+        if (that.status === STATUS_PAUSE) {
+          return true;
+        }
+        
+        that.status = STATUS_START;
+
         element.innerHTML = writeTextArr[count].replace(/\n/gi, '<br>');
         count++;
         
         if (count === writeTextArrLen) {
-          clearInterval(interval);
-          that.step.shift();
-          that._isProceccing = false;
+          clearInterval(that.interval);
+          that._isProcessing = false;
           that.text = element.innerHTML.replace(/(<br>)/gm, '\n');
           execute.call(that);
         }
@@ -55,11 +69,17 @@ var TextTypingAnimation = (function () {
   }
 
   function execute() {
-    var _isProceccing = this._isProceccing;
-    if (_isProceccing || this.step.length === 0) return false;
+    var _isProcessing = this._isProcessing;
+    if (_isProcessing || this.options.start === false) return false;
 
-    this._isProceccing = true;
-    var type = this.step[0].type;
+    if (!this.steps[this.activeIndex + 1])
+      return false;
+
+    this.activeIndex++;
+    this.activeStep = this.steps[this.activeIndex];
+
+    this._isProcessing = true;
+    var type = this.activeStep.type;
 
     switch(type) {
       case TYPE_GO: 
@@ -78,16 +98,11 @@ var TextTypingAnimation = (function () {
   }
 
   function go() {
-    var step = this.step[0];
+    var step = this.activeStep;
     var isAppend = step.append;
-    var strs;
     var writeTextArr = [];
-    if (typeof step === 'string')
-      strs = step;
-    else {
-      strs = step.text;
-    }
-    
+    var strs = step.text;
+
     var strSplit= strs.split('\n');
     var newStrList = [];
     strSplit.forEach(function (str) {
@@ -120,7 +135,7 @@ var TextTypingAnimation = (function () {
   }
 
   function back() {
-    var step = this.step[0];
+    var step = this.activeStep;
     var strs;
     var writeTextArr = [];
     if (typeof step === 'string')
@@ -163,29 +178,36 @@ var TextTypingAnimation = (function () {
 
   function delay() {
     var that = this;
-    var step = this.step[0];
+    var step = this.activeStep;
     var delay = step.delay;
 
     setTimeout(function () {
-      that.step.shift();
-      that._isProceccing = false;
+      that._isProcessing = false;
       execute.call(that);
     }, delay);
   }
 
   function clear() {
-    this.step.shift();
     this.text = '';
     this.element.innerHTML = '';
-    this._isProceccing = false;
+    this._isProcessing = false;
     execute.call(this);
   }
 
-  TextTypingAnimation.prototype._init = function (element) {
+  TextTypingAnimation.prototype._init = function (element, options) {
+    if (!options) { options = {}; }
+
     this.element = element;
-    this.step = [];
     this.text = '';
-    this._isProceccing = false;
+    this.interval = null;
+    this.status = STATUS_WAIT;
+    this.steps = [];
+    this.activeStep = null;
+    this.activeIndex = -1;
+    options.start = options.start === false ? options.start : defaultOptions.start;
+    options.repeat = typeof options.repeat !== 'undefined' ? options.repeat : defaultOptions.repeat;
+    this.options = options;
+    this._isProcessing = false;
   };
 
   TextTypingAnimation.prototype._initStep = function (obj) {
@@ -194,9 +216,9 @@ var TextTypingAnimation = (function () {
     }
 
     var step = {
-      delay: obj.delay || defaultOptions.delay,
-      duration: obj.duration || defaultOptions.duration,
-      append: obj.append || defaultOptions.append,
+      delay: obj.delay || defaultStep.delay,
+      duration: obj.duration || defaultStep.duration,
+      append: obj.append || defaultStep.append,
       text: obj.text,
       type: obj.type
     };
@@ -205,11 +227,17 @@ var TextTypingAnimation = (function () {
       step.type = TYPE_BACK;
     }
 
-    this.step.push(step);
+    this.steps.push(step);
     execute.call(this);
   };
 
   TextTypingAnimation.prototype.go = function (obj) {
+    if (typeof obj === 'string') {
+      obj = {
+        text: obj
+      };
+    }
+
     obj.type = TYPE_GO;
     this._initStep(obj);
     return this;
@@ -237,6 +265,19 @@ var TextTypingAnimation = (function () {
     };
     this._initStep(obj);
     return this;
+  };
+
+  TextTypingAnimation.prototype.start = function () {
+    this.options.start = true;
+    execute.call(this);
+  };
+
+  TextTypingAnimation.prototype.pause = function () {
+    this.status = STATUS_PAUSE;
+  };
+
+  TextTypingAnimation.prototype.restart = function () {
+    this.status = STATUS_START;
   };
 
   return TextTypingAnimation;

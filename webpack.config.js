@@ -12,12 +12,17 @@ module.exports = {
     umdNamedDefine: true,
   },
   devServer: {
-    contentBase: path.join(__dirname, 'test'),
+    contentBase: path.join(__dirname, 'template'),
     port: 8080
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve('test', 'index.html')
+      filename: 'index.html',
+      template: 'template/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'control.html',
+      template: 'template/control.html',
     })
   ]
 };

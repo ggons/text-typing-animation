@@ -32,6 +32,12 @@ tta
 ```
 
 
+
+## Option
+* `repeat` - to be
+* `start` - (Boolean) Whether to run immediately (default: true)
+
+
 ## API
 
 ### go({ text, [delay], [duration], [append] })
@@ -50,3 +56,12 @@ tta
 
 ### clear([duration])
 * `duration` - Duration
+
+### start()
+
+### pause()
+
+### restart()
+
+### stop
+to be

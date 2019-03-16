@@ -1,6 +1,6 @@
 {
   "name": "text-typing-animation",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "## Text Typing Animation",
   "main": "dist/text-typing-animation.js",
   "scripts": {
@@ -33,7 +33,8 @@
   "devDependencies": {
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
   },
   "babel": {
     "presets": [
@@ -41,7 +42,6 @@
     ]
   },
   "dependencies": {
-    "hangul-js": "^0.2.5",
-    "webpack-dev-server": "^3.2.1"
+    "hangul-js": "^0.2.5"
   }
 }

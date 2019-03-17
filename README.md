@@ -34,7 +34,7 @@ tta
 
 
 ## Option
-* `repeat` - to be
+* `repeat` - (Boolean, Number) Number of times to repeat (default: false)
 * `start` - (Boolean) Whether to run immediately (default: true)
 
 
@@ -63,5 +63,4 @@ tta
 
 ### restart()
 
-### stop
-to be
+### stop()

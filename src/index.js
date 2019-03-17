@@ -60,6 +60,7 @@ var TextTypingAnimation = (function () {
         
         if (count === writeTextArrLen) {
           clearInterval(that.interval);
+          that.interval = null;
           that._isProcessing = false;
           that.text = element.innerHTML.replace(/(<br>)/gm, '\n');
           execute.call(that);
@@ -70,12 +71,27 @@ var TextTypingAnimation = (function () {
 
   function execute() {
     var _isProcessing = this._isProcessing;
-    if (_isProcessing || this.options.start === false) return false;
-
-    if (!this.steps[this.activeIndex + 1])
-      return false;
+    if (_isProcessing || this.steps.length === 0 || this.options.start === false) return false;
 
     this.activeIndex++;
+    if (!this.steps[this.activeIndex]) {
+      var initRepeat = this.initOptions.repeat;
+      if (initRepeat === false) {
+        return false;
+      }
+
+      if (initRepeat === true) {
+        this.activeIndex = 0;
+      } else if (typeof initRepeat === 'number') {
+        if (this.options.repeat + 1 === initRepeat) {
+          return false;
+        }
+
+        this.options.repeat++;
+        this.activeIndex = 0;
+      }
+    }
+
     this.activeStep = this.steps[this.activeIndex];
 
     this._isProcessing = true;
@@ -206,7 +222,9 @@ var TextTypingAnimation = (function () {
     this.activeIndex = -1;
     options.start = options.start === false ? options.start : defaultOptions.start;
     options.repeat = typeof options.repeat !== 'undefined' ? options.repeat : defaultOptions.repeat;
+    this.initOptions = JSON.parse(JSON.stringify(options));
     this.options = options;
+    this.options.repeat = 0;
     this._isProcessing = false;
   };
 
@@ -269,6 +287,20 @@ var TextTypingAnimation = (function () {
 
   TextTypingAnimation.prototype.start = function () {
     this.options.start = true;
+    execute.call(this);
+  };
+
+  TextTypingAnimation.prototype.stop = function () {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+
+    this._isProcessing = false;
+    this.activeIndex = -1;
+    this.activeStep = null;
+    this.status = STATUS_WAIT;
+    this.options.start = false;
     execute.call(this);
   };
 

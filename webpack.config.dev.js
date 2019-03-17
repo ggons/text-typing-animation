@@ -10,5 +10,19 @@ module.exports = {
     libraryTarget: 'umd',
     library: 'TextTypingAnimation',
     umdNamedDefine: true,
-  }
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'template'),
+    port: 8080
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'template/index.html',
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'control.html',
+      template: 'template/control.html',
+    })
+  ]
 };

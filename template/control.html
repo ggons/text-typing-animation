@@ -18,6 +18,7 @@
 
   </div>
   <button id="start">Start</button>
+  <button id="stop">Stop</button>
   <button id="pause">Pause</button>
   <button id="restart">Restart</button>
   <script>
@@ -43,6 +44,10 @@
 
       document.getElementById('start').addEventListener('click', function () {
         tta.start();
+      });
+
+      document.getElementById('stop').addEventListener('click', function () {
+        tta.stop();
       });
 
       document.getElementById('pause').addEventListener('click', function () {

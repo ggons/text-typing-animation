@@ -12,30 +12,27 @@ npm install text-typing-animation
 var TextTypingAnimation = require('text-typing-animation');
 ```
 
-## Usage
-
+### browser
 ```javascript
-var tta = new TextTypingAnimation(document.getElementById('tta'));
-tta
-  .go({
-    text: 'Hello World!',
-    duration: 500
-  })
-  .go({
-    text: '\nText Typing Animation',
-    delay: 100
-  })
-  .back({
-    text: 'Typing Animation'
-    delay: 200
-  });
+<script src="https://unpkg.com/text-typing-animation"></script>
+<script>
+  var textTypingAnimation = new TextTypingAnimation(element, options)
+</script>
 ```
 
 
 
-## Option
+## Template
+```javascript
+var textTypingAnimation = new TextTypingAnimation(element, options);
+```
+
+
+
+## Options
 * `repeat` - (Boolean, Number) Number of times to repeat (default: false)
 * `start` - (Boolean) Whether to run immediately (default: true)
+
 
 
 ## API
@@ -64,3 +61,24 @@ tta
 ### restart()
 
 ### stop()
+
+
+
+## Example
+
+```javascript
+var textTypingAnimation = new TextTypingAnimation(document.getElementById('tta'));
+textTypingAnimation
+  .go({
+    text: 'Hello World!',
+    duration: 500
+  })
+  .go({
+    text: '\nText Typing Animation',
+    delay: 100
+  })
+  .back({
+    text: 'Typing Animation'
+    delay: 200
+  });
+```
